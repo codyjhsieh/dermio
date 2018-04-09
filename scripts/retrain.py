@@ -816,6 +816,9 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
   with tf.name_scope('accuracy'):
     with tf.name_scope('correct_prediction'):
       prediction = tf.argmax(result_tensor, 1)
+      top_k = result_tensor.argsort()[-5:][::-1]
+      for i in top_k:
+        print(ground_truth_tensor[i], result_tensor[i])
       correct_prediction = tf.equal(
           prediction, tf.argmax(ground_truth_tensor, 1))
     with tf.name_scope('accuracy'):
@@ -915,8 +918,8 @@ def create_model_info(architecture):
     if is_quantized:
       model_base_name = 'quantized_graph.pb'
     else:
-      model_base_name = 'mobilenet_v2_1.4_224_frozen.pb'
-    # model_dir_name = 'mobilenet_v2_' + version_string + '_' + size_string
+      # model_base_name = 'mobilenet_v2_1.4_224_frozen.pb'
+    model_dir_name = 'mobilenet_v2_' + version_string + '_' + size_string + '_frozen.pb'
     model_dir_name = ''
     model_file_name = os.path.join(model_dir_name, model_base_name)
     input_mean = 127.5
