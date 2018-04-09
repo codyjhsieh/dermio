@@ -827,7 +827,7 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
       correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, 0, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
       for i in range(1, 5):
         # print(tf.gather(top_k_inicides, i, axis=1))
-        is_equal = tf.equal(tf.gather(top_k_inicides, i, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+        correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, i, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
         # print(is_equal)
     with tf.name_scope('accuracy_top_5'):
       evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
