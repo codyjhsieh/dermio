@@ -822,13 +822,19 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
       # print(top_k)
       # print(prediction)
       # print(tf.argmax(ground_truth_tensor, 1))
-      correct_prediction = False
-      for i in top_k_inicides:
-        if(tf.equal(i, tf.argmax(ground_truth_tensor, 1))):
-          correct_prediction = True
+      correct_prediction = tf.equal(prediction, tf.argmax(ground_truth_tensor, 1))
+      # print(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, 0, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      for i in range(1, 5):
+        # print(tf.gather(top_k_inicides, i, axis=1))
+        is_equal = tf.equal(tf.gather(top_k_inicides, i, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+        # print(is_equal)
+    with tf.name_scope('accuracy_top_5'):
+      evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
     with tf.name_scope('accuracy'):
       evaluation_step = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
   tf.summary.scalar('accuracy', evaluation_step)
+  tf.summary.scalar('accuracy_top_5', evaluation_step_top_5)
   return evaluation_step, prediction
 
 
@@ -982,8 +988,6 @@ def main(_):
 
   # Prepare necessary directories  that can be used during training
   prepare_file_system()
-
-  tf.enable_eager_execution()
 
   # Gather information about the model architecture we'll be using.
   model_info = create_model_info(FLAGS.architecture)
