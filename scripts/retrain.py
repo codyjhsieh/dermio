@@ -983,6 +983,8 @@ def main(_):
   # Prepare necessary directories  that can be used during training
   prepare_file_system()
 
+  tf.enable_eager_execution()
+
   # Gather information about the model architecture we'll be using.
   model_info = create_model_info(FLAGS.architecture)
   if not model_info:
