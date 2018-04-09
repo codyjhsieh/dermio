@@ -817,8 +817,9 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
     with tf.name_scope('correct_prediction'):
       prediction = tf.argmax(result_tensor, 1)
       top_k = tf.nn.top_k(result_tensor, k=5, sorted=True)
-      for i in top_k:
-        print(ground_truth_tensor[i], result_tensor[i])
+      # for i in top_k:
+      #   print(ground_truth_tensor[i], result_tensor[i])
+      print(top_k)
       print(prediction)
       print(tf.argmax(ground_truth_tensor, 1))
       correct_prediction = tf.equal(
