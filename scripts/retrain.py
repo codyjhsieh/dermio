@@ -918,8 +918,8 @@ def create_model_info(architecture):
     if is_quantized:
       model_base_name = 'quantized_graph.pb'
     else:
-      # model_base_name = 'mobilenet_v2_1.4_224_frozen.pb'
-    model_dir_name = 'mobilenet_v2_' + version_string + '_' + size_string + '_frozen.pb'
+      model_base_name = 'mobilenet_v2_' + version_string + '_' + size_string + '_frozen.pb'
+    # model_dir_name = 'mobilenet_v2_' + version_string + '_' + size_string + '_frozen.pb'
     model_dir_name = ''
     model_file_name = os.path.join(model_dir_name, model_base_name)
     input_mean = 127.5
