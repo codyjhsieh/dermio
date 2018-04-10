@@ -789,7 +789,7 @@ def add_final_training_ops(class_count, final_tensor_name, bottleneck_tensor,
   tf.summary.histogram('activations', final_tensor)
 
   with tf.name_scope('cross_entropy'):
-    cross_entropy = tf.nn.softmax_cross_entropy_with_logits(
+    cross_entropy = tf.nn.softmax_cross_entropy_with_logits_v2(
         labels=ground_truth_input, logits=logits)
     with tf.name_scope('total'):
       cross_entropy_mean = tf.reduce_mean(cross_entropy)
@@ -825,7 +825,7 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
       for i in range(1, 5):
         is_equal = tf.equal(tf.cast(tf.gather(top_k_inicides, i, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
         correct_prediction_top_5 = tf.where(is_equal, is_equal, correct_prediction_top_5)
-        
+
     with tf.name_scope('accuracy_top_5'):
       evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
     with tf.name_scope('accuracy'):
