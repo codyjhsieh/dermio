@@ -826,11 +826,11 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
       
       correct_prediction = tf.equal(prediction, tf.argmax(ground_truth_tensor, 1))
       # print(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
-      correct_prediction_top_5 = tf.equal(tf.cast(tf.gather(top_k_vals, 0, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      correct_prediction_top_5 = tf.equal(tf.cast(tf.gather(top_k_inicides, 0, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
       for i in range(1, 5):
       #   print(tf.shape(tf.gather(top_k_inicides, i, axis=1)))
       #   print(tf.shape(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32)))
-        is_equal = tf.equal(tf.cast(tf.gather(top_k_vals, i, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+        is_equal = tf.equal(tf.cast(tf.gather(top_k_inicides, i, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
       #   print(tf.shape(is_equal))
         correct_prediction_top_5 = tf.where(is_equal, is_equal, correct_prediction_top_5)
       #   #   correct_prediction_top_5 = is_equal
