@@ -927,7 +927,6 @@ def create_model_info(architecture):
             architecture)
         return None
       is_quantized = True
-      https://storage.googleapis.com/mobilenet_v2/checkpoints/mobilenet_v2_1.4_224.tgz
     data_url = 'https://storage.googleapis.com/mobilenet_v2/checkpoints/mobilenet_v2_'
     data_url += version_string + '_' + size_string + '.tgz'
     bottleneck_tensor_name = 'MobilenetV2/Predictions/Reshape:0'
