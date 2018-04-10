@@ -816,25 +816,33 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
   with tf.name_scope('accuracy'):
     with tf.name_scope('correct_prediction'):
       prediction = tf.argmax(result_tensor, 1)
-      top_k_vals, top_k_inicides = tf.nn.top_k(result_tensor, k=5, sorted=True)
+      # top_k_vals, top_k_inicides = tf.nn.top_k(result_tensor, k=5, sorted=True)
       # for i in top_k:
       #   print(ground_truth_tensor[i], result_tensor[i])
       # print(top_k)
       # print(prediction)
       # print(tf.argmax(ground_truth_tensor, 1))
+      
       correct_prediction = tf.equal(prediction, tf.argmax(ground_truth_tensor, 1))
       # print(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
-      correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, 0, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
-      for i in range(1, 5):
-        # print(tf.gather(top_k_inicides, i, axis=1))
-        correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, i, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
-        # print(is_equal)
-    with tf.name_scope('accuracy_top_5'):
-      evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
+      # correct_prediction_top_5 = tf.equal(tf.gather(top_k_inicides, 0, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      
+      # def assign_top_k(is_equal):
+      #   correct_prediction_top_5 = is_equal
+      # for i in range(1, 5):
+      #   print(tf.shape(tf.gather(top_k_inicides, i, axis=1)))
+      #   print(tf.shape(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32)))
+      #   is_equal = tf.equal(tf.gather(top_k_inicides, i, axis=1), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      #   print(tf.shape(is_equal))
+      #   correct_prediction_top_5 = tf.cond(is_equal, lambda: is_equal, lambda: correct_prediction_top_5)
+      #   #   correct_prediction_top_5 = is_equal
+      #   print(is_equal)
+    # with tf.name_scope('accuracy_top_5'):
+    #   evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
     with tf.name_scope('accuracy'):
       evaluation_step = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
   tf.summary.scalar('accuracy', evaluation_step)
-  tf.summary.scalar('accuracy_top_5', evaluation_step_top_5)
+  # tf.summary.scalar('accuracy_top_5', evaluation_step_top_5)
   return evaluation_step, prediction
 
 
