@@ -818,30 +818,21 @@ def add_evaluation_step(result_tensor, ground_truth_tensor):
     with tf.name_scope('correct_prediction'):
       prediction = tf.argmax(result_tensor, 1)
       top_k_vals, top_k_inicides = tf.nn.top_k(result_tensor, k=5, sorted=True)
-      # for i in top_k:
-      #   print(ground_truth_tensor[i], result_tensor[i])
-      # print(top_k)
-      # print(prediction)
-      # print(tf.argmax(ground_truth_tensor, 1))
       
       correct_prediction = tf.equal(prediction, tf.argmax(ground_truth_tensor, 1))
-      # print(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
       correct_prediction_top_5 = tf.equal(tf.cast(tf.gather(top_k_inicides, 0, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
+      
       for i in range(1, 5):
-      #   print(tf.shape(tf.gather(top_k_inicides, i, axis=1)))
-      #   print(tf.shape(tf.argmax(ground_truth_tensor, 1, output_type=tf.int32)))
         is_equal = tf.equal(tf.cast(tf.gather(top_k_inicides, i, axis=1), tf.int32), tf.argmax(ground_truth_tensor, 1, output_type=tf.int32))
-      #   print(tf.shape(is_equal))
         correct_prediction_top_5 = tf.where(is_equal, is_equal, correct_prediction_top_5)
-      #   #   correct_prediction_top_5 = is_equal
-      #   print(is_equal)
+        
     with tf.name_scope('accuracy_top_5'):
       evaluation_step_top_5 = tf.reduce_mean(tf.cast(correct_prediction_top_5, tf.float32))
     with tf.name_scope('accuracy'):
       evaluation_step = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
   tf.summary.scalar('accuracy', evaluation_step)
   tf.summary.scalar('accuracy_top_5', evaluation_step_top_5)
-  return evaluation_step, prediction
+  return evaluation_step, prediction, evaluation_step_top_5
 
 
 def save_graph_to_file(sess, graph, graph_file_name):
@@ -1054,7 +1045,7 @@ def main(_):
          model_info['bottleneck_tensor_size'])
 
     # Create the operations we need to evaluate the accuracy of our new layer.
-    evaluation_step, prediction = add_evaluation_step(
+    evaluation_step, prediction, evaluation_step_top_5 = add_evaluation_step(
         final_tensor, ground_truth_input)
 
     # Merge all the summaries and write them out to the summaries_dir
@@ -1113,13 +1104,16 @@ def main(_):
                 FLAGS.architecture))
         # Run a validation step and capture training summaries for TensorBoard
         # with the `merged` op.
-        validation_summary, validation_accuracy = sess.run(
-            [merged, evaluation_step],
+        validation_summary, validation_accuracy, validation_accuracy_top_5 = sess.run(
+            [merged, evaluation_step, evaluation_step_top_5],
             feed_dict={bottleneck_input: validation_bottlenecks,
                        ground_truth_input: validation_ground_truth})
         validation_writer.add_summary(validation_summary, i)
         tf.logging.info('%s: Step %d: Validation accuracy = %.1f%% (N=%d)' %
                         (datetime.now(), i, validation_accuracy * 100,
+                         len(validation_bottlenecks)))
+        tf.logging.info('%s: Step %d: Validation accuracy top 5 = %.1f%% (N=%d)' %
+                        (datetime.now(), i, validation_accuracy_top_5 * 100,
                          len(validation_bottlenecks)))
 
       # Store intermediate results
@@ -1141,12 +1135,15 @@ def main(_):
             FLAGS.bottleneck_dir, FLAGS.image_dir, jpeg_data_tensor,
             decoded_image_tensor, resized_image_tensor, bottleneck_tensor,
             FLAGS.architecture))
-    test_accuracy, predictions = sess.run(
-        [evaluation_step, prediction],
+    test_accuracy, predictions, test_accuracy_top_5 = sess.run(
+        [evaluation_step, prediction, evaluation_step_top_5],
         feed_dict={bottleneck_input: test_bottlenecks,
                    ground_truth_input: test_ground_truth})
     tf.logging.info('Final test accuracy = %.1f%% (N=%d)' %
                     (test_accuracy * 100, len(test_bottlenecks)))
+    tf.logging.info('Final test accuracy top 5= %.1f%% (N=%d)' %
+                    (test_accuracy_top_5 * 100, len(test_bottlenecks)))
+
 
     if FLAGS.print_misclassified_test_images:
       tf.logging.info('=== MISCLASSIFIED TEST IMAGES ===')
