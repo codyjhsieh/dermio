@@ -101,7 +101,7 @@ li a:hover {
     padding: 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: none;
     font-size: 16px;
     /*margin: 4px 2px;*/
     position: absolute;
@@ -118,6 +118,13 @@ li a:hover {
     z-index: 1;
     box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
 }
+
+.button:active {
+    transform: scale(0.95, 0.95);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+button:focus {outline:0;}
 
 .button4 {border-radius: 50px;}
 

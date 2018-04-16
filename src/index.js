@@ -187,14 +187,14 @@ function doneLoading() {
   const elem = document.getElementById('loading-message');
   elem.style.display = 'none';
 
-  const successElem = document.getElementById('success-message');
-  successElem.style.display = 'block';
+  const successElem = document.getElementById('capture-button');
+  successElem.style.display = 'inline-block';
 
   const webcamElem = document.getElementById('webcam-wrapper');
   webcamElem.style.display = 'flex';
 }
 
-document.getElementById('webcam').addEventListener('click', async () => {
+document.getElementById('capture-button').addEventListener('click', async () => {
   console.log('pic taken');
   const img = webcam.capture();
   let result = mobileNet.predict(img);
