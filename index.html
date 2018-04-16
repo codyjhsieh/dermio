@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dermio skin classifier</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+  <ul>
+    <li id="logo"><a href="index.html">dermio</a></li>
+    <li style="float:right"><a href="about.html">About</a></li>
+    <li style="float:right"><a href="index.html" class="active">Home</a></li>
+  </ul>
+  <div class="webcam-ui-container">
+    <div id="webcam-wrapper">
+      <video autoplay playsinline muted
+        id="webcam" width="416" height="416">
+      </video>
+    </div>
+  </div>
+  <div id="loading-message">
+    loading neural network...
+    <div>
+      <img class="spin" src="spin.png">
+    </div>
+  </div>
+  <button class="button button4">Take Picture</button>
+
+  <div class="color-rectangle"></div>
+  <script src="./bundle.js"></script>
+  <!-- <script src="./webcam.js"></script> -->
+</body>
+</html>
