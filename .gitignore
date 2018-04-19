@@ -1,1 +1,4 @@
 .tf_files/skin_images
+model retrain
+node_modules
+.cache/

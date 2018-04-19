@@ -95,16 +95,12 @@ export class Webcam {
 
 const classes = ['acne vulgaris', 'acrokeratosis verruciformis', 'actinic solar damage actinic cheilitis ', 'actinic solar damage actinic keratosis ', 'actinic solar damage cutis rhomboidalis nuchae ', 'actinic solar damage pigmentation ', 'actinic solar damage solar elastosis ', 'actinic solar damage solar purpura ', 'actinic solar damage telangiectasia ', 'acute eczema', 'allergic contact dermatitis', 'alopecia areata', 'androgenetic alopecia', 'angioma', 'angular cheilitis', 'aphthous ulcer', 'apocrine hydrocystoma', 'arsenical keratosis', 'balanitis xerotica obliterans', 'basal cell carcinoma', 'beau s lines', 'becker s nevus', 'behcet s syndrome', 'benign keratosis', 'blue nevus', 'bowen s disease', 'bowenoid papulosis', 'cafe au lait macule', 'callus', 'candidiasis', 'cellulitis', 'chalazion', 'clubbing of fingers', 'compound nevus', 'congenital nevus', 'crowe s sign', 'cutanea larva migrans', 'cutaneous horn', 'cutaneous t cell lymphoma', 'cutis marmorata', 'darier white disease', 'dermatofibroma', 'dermatosis papulosa nigra', 'desquamation', 'digital fibroma', 'dilated pore of winer', 'discoid lupus erythematosus', 'disseminated actinic porokeratosis', 'drug eruption', 'dry skin eczema', 'dyshidrosiform eczema', 'dysplastic nevus', 'eccrine poroma', 'eczema', 'epidermal nevus', 'epidermoid cyst', 'epithelioma adenoides cysticum', 'erythema ab igne', 'erythema annulare centrifigum', 'erythema craquele', 'erythema multiforme', 'exfoliative erythroderma', 'factitial dermatitis', 'favre racouchot', 'fibroma', 'fibroma molle', 'fixed drug eruption', 'follicular mucinosis', 'follicular retention cyst', 'fordyce spots', 'frictional lichenoid dermatitis', 'ganglion', 'geographic tongue', 'granulation tissue', 'granuloma annulare', 'green nail', 'guttate psoriasis', 'hailey hailey disease', 'half and half nail', 'halo nevus', 'herpes simplex virus', 'herpes zoster', 'hidradenitis suppurativa', 'histiocytosis x', 'hyperkeratosis palmaris et plantaris', 'hypertrichosis', 'ichthyosis', 'impetigo', 'infantile atopic dermatitis', 'inverse psoriasis', 'junction nevus', 'keloid', 'keratoacanthoma', 'keratolysis exfoliativa of wende', 'keratosis pilaris', 'kerion', 'koilonychia', 'kyrle s disease', 'leiomyoma', 'lentigo maligna melanoma', 'leukocytoclastic vasculitis', 'leukonychia', 'lichen planus', 'lichen sclerosis et atrophicus', 'lichen simplex chronicus', 'lichen spinulosis', 'linear epidermal nevus', 'lipoma', 'livedo reticularis', 'lymphangioma circumscriptum', 'lymphocytic infiltrate of jessner', 'lymphomatoid papulosis', 'mal perforans', 'malignant melanoma', 'median nail dystrophy', 'melasma', 'metastatic carcinoma', 'milia', 'molluscum contagiosum', 'morphea', 'mucha habermann disease', 'mucous membrane psoriasis', 'myxoid cyst', 'nail dystrophy', 'nail nevus', 'nail psoriasis', 'nail ridging', 'neurodermatitis', 'neurofibroma', 'neurotic excoriations', 'nevus comedonicus', 'nevus incipiens', 'nevus sebaceous of jadassohn', 'nevus spilus', 'nummular eczema', 'onychogryphosis', 'onycholysis', 'onychomycosis', 'onychoschizia', 'paronychia', 'pearl penile papules', 'perioral dermatitis', 'pincer nail syndrome', 'pitted keratolysis', 'pityriasis alba', 'pityriasis rosea', 'pityrosporum folliculitis', 'poikiloderma atrophicans vasculare', 'pomade acne', 'pseudofolliculitis barbae', 'pseudorhinophyma', 'psoriasis', 'pustular psoriasis', 'pyoderma gangrenosum', 'pyogenic granuloma', 'racquet nail', 'radiodermatitis', 'rhinophyma', 'rosacea', 'scalp psoriasis', 'scar', 'scarring alopecia', 'schamberg s disease', 'sebaceous gland hyperplasia', 'seborrheic dermatitis', 'seborrheic keratosis', 'skin tag', 'solar lentigo', 'stasis dermatitis', 'stasis edema', 'stasis ulcer', 'steroid acne', 'steroid striae', 'steroid use abusemisuse dermatitis', 'stomatitis', 'strawberry hemangioma', 'striae', 'subungual hematoma', 'syringoma', 'terry s nails', 'tinea corporis', 'tinea cruris', 'tinea faciale', 'tinea manus', 'tinea pedis', 'tinea versicolor', 'toe deformity', 'trichilemmal cyst', 'trichofolliculoma', 'trichostasis spinulosa', 'ulcer', 'urticaria', 'varicella', 'verruca vulgaris', 'vitiligo', 'wound infection', 'xerosis']
 
-// 
-const MODEL_PATH = './web_model/tensorflowjs_model.pb'
-const WEIGHTS_PATH = './web_model/weights_manifest.json'
-// const MODEL_PATH = 'https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v1_1.0_224/optimized_model.pb'
-// const WEIGHTS_PATH = 'https://storage.googleapis.com/tfjs-models/savedmodel/mobilenet_v1_1.0_224/weights_manifest.json'
+const MODEL_PATH = './assets/web_model/tensorflowjs_model.pb'
+const WEIGHTS_PATH = './assets/web_model/weights_manifest.json'
 const IMAGE_SIZE = 224;
 const TOPK_PREDICTIONS = 5;
 const INPUT_NODE_NAME = 'input';
 const OUTPUT_NODE_NAME = 'final_result';
-// const OUTPUT_NODE_NAME = 'MobilenetV1/Predictions/Reshape_1';
 const PREPROCESS_DIVISOR = tfc.scalar(255 / 2);
 
 export class MobileNet {
@@ -142,9 +138,6 @@ export class MobileNet {
   }
 
   getTopKClasses(predictions, topK) {
-    // var fs = require("fs");
-    // var text = fs.readFileSync("./retrained_labels.txt", "utf-8");
-    // var classes = text.split("\n")
     const values = predictions.dataSync();
     predictions.dispose();
 
