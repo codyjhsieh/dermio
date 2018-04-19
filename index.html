@@ -5,10 +5,10 @@
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-  <ul>
-    <li id="logo"><a href="index.html">dermio</a></li>
-    <li style="float:right"><a href="about.html">About</a></li>
-    <li style="float:right"><a href="index.html" class="active">Home</a></li>
+  <ul class="navbar">
+    <li class="navbar-item" id="logo"><a href="index.html">dermio</a></li>
+    <li class="navbar-item" style="float:right"><a href="about.html">About</a></li>
+    <li class="navbar-item" style="float:right"><a href="index.html" class="active">Home</a></li>
   </ul>
   <div class="webcam-ui-container">
     <div id="webcam-wrapper">
@@ -24,7 +24,13 @@
     </div>
   </div>
   <button id="capture-button" class="button button4">Take Picture</button>
-
+  <ul id="disease-list">
+    <li class="disease-list-item">Hello</li>
+    <li class="disease-list-item">Hello</li>
+    <li class="disease-list-item">Hello</li>
+    <li class="disease-list-item">Hello</li>
+    <li class="disease-list-item">Hello</li>
+  </ul>
   <div class="color-rectangle"></div>
   <script src="./bundle.js"></script>
   <!-- <script src="./webcam.js"></script> -->

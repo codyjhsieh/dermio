@@ -190,7 +190,19 @@ function doneLoading() {
 document.getElementById('capture-button').addEventListener('click', async () => {
   console.log('pic taken');
   const img = webcam.capture();
-  let result = mobileNet.predict(img);
+  let result = await mobileNet.predict(img);
   const topK = mobileNet.getTopKClasses(result, 5);
+
+  const successElem = document.getElementById('capture-button');
+  successElem.style.bottom = '5%';
+  const diseaseList = document.getElementById('disease-list');
+  diseaseList.style.display = 'block';
+
+  const diseaseListItems = document.getElementsByClassName('disease-list-item');
   console.log(topK);
+
+  for(var key in diseaseListItems){
+    console.log(topK[key]['label'] + ' ' + topK[key]['value']);
+    diseaseListItems[key].innerText=topK[key]['label'].replace(/\b\w/g, l => l.toUpperCase()) + ' ' + (topK[key]['value']*100).toFixed(2) + '%';
+  }
 });

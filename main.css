@@ -10,14 +10,14 @@ body {
     font-size: 30px;
 }
 
-ul {
+.navbar {
     list-style-type: none;
     padding: 20px 50px;
     margin: 0;
     overflow: hidden;
     background-color: white;}
 
-li {
+.navbar-item {
     float: left;
     height: 70px;
 }
@@ -103,20 +103,34 @@ li a:hover {
     text-decoration: none;
     display: none;
     font-size: 16px;
-    /*margin: 4px 2px;*/
     position: absolute;
-    /*left: 0;*/
-    /*right: 0;*/
-    /*margin: auto*/
-    /*right: 0;*/
+    left: 0;
+    right: 0;
+    margin: auto;
     bottom: 15%;
-    left: 46%;
-    /*transform: translateX(-50%)*/
     width: 150px;
     font-family: 'Helvetica Neue';
-    /*font-weight: bold;*/
     z-index: 1;
     box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
+}
+
+#disease-list {
+    list-style-type: decimal;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 15%;
+    z-index: 2;
+    font-family: 'Helvetica Neue';
+    font-weight: bold;
+    width: fit-content;
+    color: white;
+    display: none;
+}
+
+.disease-list-item {
+    margin-bottom: 10px;
 }
 
 .button:active {
