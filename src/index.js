@@ -20,22 +20,16 @@ export class Webcam {
   capture() {
     return tf.tidy(() => {
       // Reads the image as a Tensor from the webcam <video> element.
-      const webcamImage = tf.image.resizeBilinear(tf.fromPixels(this.webcamElement, 3), [224, 224]);
-      // console.log(webcamImage.data());
+      const webcamImage = tf.fromPixels(this.webcamElement, 3);
 
       // Crop the image so we're using the center square of the rectangular
       // webcam.
-      const croppedImage = this.cropImage(webcamImage);
-
-      // Expand the outer most dimension so we have a batch size of 1.
-      const batchedImage = croppedImage.expandDims(0);
+      const croppedImage = tf.image.resizeBilinear(this.cropImage(webcamImage), [224, 224]);
 
       // Normalize the image between -1 and 1. The image comes in between 0-255,
       // so we divide by 127 and subtract 1
       return croppedImage;
-      // return croppedImage.toFloat().div(tf.scalar(255));
     });
-    // return tf.fromPixels(this.webcamElement);
   }
 
   /**
@@ -102,6 +96,8 @@ const TOPK_PREDICTIONS = 5;
 const INPUT_NODE_NAME = 'input';
 const OUTPUT_NODE_NAME = 'final_result';
 const PREPROCESS_DIVISOR = tfc.scalar(255 / 2);
+const INPUT_MEAN = tfc.scalar(128);
+const INPUT_STD = tfc.scalar(128);
 
 export class MobileNet {
   constructor() {}
@@ -124,16 +120,14 @@ export class MobileNet {
    * @return The softmax logits.
    */
   predict(input) {
-    console.log(input.shape)
     const preprocessedInput = tfc.div(
-        tfc.sub(input.asType('float32'), PREPROCESS_DIVISOR),
-        PREPROCESS_DIVISOR);
-    console.log(preprocessedInput.shape)
+        tfc.sub(input.asType('float32'), INPUT_MEAN),
+        INPUT_STD);
     const reshapedInput =
         preprocessedInput.reshape([1, ...preprocessedInput.shape]);
     const dict = {};
+
     dict[INPUT_NODE_NAME] = reshapedInput;
-    console.log(reshapedInput.shape)
     return this.model.execute(dict, OUTPUT_NODE_NAME);
   }
 
